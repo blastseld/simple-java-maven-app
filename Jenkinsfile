@@ -36,6 +36,11 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
+        stage('Copy to server') {
+            steps {
+                sh 'scp target/${NAME}-${VERSION}.jar user:${REMOTE_PASS}@remote.com/path/etc'
+            }
+        }
     }
     post {
         failure {
