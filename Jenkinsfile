@@ -6,6 +6,11 @@ pipeline {
         }
     }
     stages {
+        stage('Linting') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
