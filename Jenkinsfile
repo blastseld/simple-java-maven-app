@@ -11,6 +11,11 @@ pipeline {
                 sh 'mvn checkstyle:checkstyle'
             }
         }
+        stage('Static Analysis') {
+            steps {
+                sh 'mvn pmd:pmd spotbugs:spotbugs'
+            }
+        }
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
@@ -40,6 +45,13 @@ pipeline {
                 <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
               recipientProviders: [[$class: 'DevelopersRecipientProvider']]
             )
+        }
+        always {
+            warningsNextGeneration([
+                checkstyle(pattern: '**/target/checkstyle-result.xml'),
+                pmd(pattern: '**/target/pmd.xml')
+
+            ])
         }
     }
 }
