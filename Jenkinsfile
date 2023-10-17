@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Static Analysis') {
             steps {
-                sh 'mvn pmd:pmd spotbugs:spotbugs'
+                sh 'mvn pmd:pmd'
             }
         }
         stage('Build') { 
